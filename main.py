@@ -1,9 +1,7 @@
-import pygame
 import numpy as np
 import time
 
 from framebuffer import Framebuffer
-from display_pygame import PygameDisplay
 from display_ascii import AsciiDisplay
 from pipeline import draw_mesh
 from math3d import apply_matrix, rotation_x, rotation_y, normalize
@@ -51,22 +49,20 @@ scaleing_mat = [
 fb = Framebuffer(WIDTH, HEIGHT)
 display = AsciiDisplay()
 
-light_dir = normalize(np.array([0, -1, 1]))
+light_dir = normalize(np.array([0, 0, 1]))
 
 running = True
 angle_x = np.pi * 0.5
 angle_y = 0.0
 
-clock = pygame.time.Clock()
 # hide terminal cursor
 print("\033[?25l", end="", flush=True)
-
-print("\033[?25l", end="")  # hide cursor
 
 M = np.matmul(rotation_y(angle_y), rotation_x(angle_x))
 print(M)
 try:
     while running:
+        t = time.time()
         angle_y += 0.1
         angle_x += -0.05
         M = np.matmul(rotation_y(angle_y), rotation_x(angle_x))
@@ -76,7 +72,9 @@ try:
         draw_mesh(fb, vertices, faces, M, light_dir)
         display.draw(fb)
 
-        clock.tick(30)
+        d = time.time() - t
+        time.sleep(max(0.03333 - d, 0))
+
 
 finally:
     print("Program is closing...")
