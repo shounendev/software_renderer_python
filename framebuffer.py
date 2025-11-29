@@ -1,14 +1,14 @@
 class Framebuffer:
-    def __init__(self, width, heigt):
+    def __init__(self, width, height):
         self.width = width
-        self.heigt = height
-        self.pixels = [[0.0 for _ in range(width)] for _ in range(heigt)]
+        self.height = height
+        self.pixels = [[0.0 for _ in range(width)] for _ in range(height)]
 
     def clear(self, value=0.0):
-        for y in range(self.heigt):
+        for y in range(self.height):
             for x in range(self.width):
                 self.pixels[y][x] = value
 
     def set_pixel(self, x, y, value):
-        if x >= 0 and x < self.width and y >= 0 and y < self.heigt:
+        if 0 <= x < self.width and 0 <= y < self.height:
             self.pixels[y][x] = value
